@@ -13,8 +13,8 @@ To get started with this application download or clone the git repository and th
 
 ### Database and intialization
 1. Create a new database within PostgreSQL
-2. Navigate to the /data folder and run the `ddl.sql` and `dml.sql` scripts in your newly created database
-3. create a `.env` file in the root directory
+2. Navigate to the /sql folder and run the `ddl.sql` and `dml.sql` scripts in your newly created database
+3. create a `.env` file in the root directory (i.e., /3005_final)
 4. Provide the following:<br/>
 DATABASE_USER=\<enter databse user here\><br/>
 DATABASE_PASSWORD=\<enter database password here\><br/>

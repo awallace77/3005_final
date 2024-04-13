@@ -204,11 +204,11 @@ CREATE TABLE equipment(
 
 -- Views
 CREATE VIEW all_users_with_roles AS
-  SELECT 'admin' AS role, admin_id AS user_id, username, email, password FROM admin
+  SELECT 'admin' AS role, admin_id AS user_id, name, email, password FROM admin
   UNION ALL
-  SELECT 'member' AS role, member_id AS user_id, username, email, password FROM member
+  SELECT 'member' AS role, member_id AS user_id, name, email, password FROM member
   UNION ALL
-  SELECT 'trainer' AS role, trainer_id AS user_id, username, email, password FROM trainer
+  SELECT 'trainer' AS role, trainer_id AS user_id, name, email, password FROM trainer
 ;
 
 CREATE VIEW all_member_goals AS
@@ -278,4 +278,16 @@ CREATE VIEW class_schedule_details AS
   JOIN fitness_class AS fc ON cs.class_id = fc.class_id
   JOIN room_booking AS rb ON cs.room_booking_id = rb.room_booking_id
   JOIN room AS r ON rb.room_id = r.room_id
+;
+
+CREATE VIEW class_member_details AS
+SELECT cs.class_schedule_id, fc.name AS class_name, fc.description AS class_description,
+       m.member_id, m.name AS member_name, m.email AS member_email,
+       rb.date_time, rb.start_time, rb.end_time, r.name AS room_name, r.room_number
+  FROM fitness_class_member AS fcm
+  JOIN class_schedule AS cs ON fcm.class_schedule_id = cs.class_schedule_id
+  JOIN fitness_class AS fc ON cs.class_id = fc.class_id
+  JOIN room_booking AS rb ON cs.room_booking_id = rb.room_booking_id
+  JOIN room AS r ON rb.room_id = r.room_id
+  JOIN member AS m ON fcm.member_id = m.member_id
 ;
