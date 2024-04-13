@@ -57,5 +57,9 @@ Role: admin<br/>
 - please note that the development was done completely locally on a Windows 11 OS and may not work with other operating systems or 3rd party hosting services.
 - no authentication / advanced password hashing was done, so be careful when inputting sensitive data.
 
+## Video Demonstration
+For a full demo of the applicaiton please watch the demo here: 
+https://youtu.be/peMy_6Zggq0
+
 
 
