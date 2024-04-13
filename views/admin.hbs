@@ -1,0 +1,240 @@
+
+{{!-- 
+  1. manage room bookings, 
+  2. monitor fitness equipment maintenance, 
+  3. update class schedules, 
+  4. oversee billing, 
+  5. process payments for membership fees personal training sessions, and other services
+--}}
+
+<div class="main-content">
+  <h2 class="pb-2">Welcome back, {{name}}</h2>
+  <hr class="pb-2"/>
+  <div class="main-container">
+    <sl-tab-group>
+      <sl-tab slot="nav" panel="roomBookings">Room bookings</sl-tab>
+      <sl-tab slot="nav" panel="equipment">Equipment</sl-tab>
+      <sl-tab slot="nav" panel="schedules">Class schedules</sl-tab>
+      <sl-tab slot="nav" panel="billings">Billings</sl-tab>
+
+      {{!-- Room bookings --}}
+      <sl-tab-panel name="roomBookings">
+
+        <sl-tab-group placement="start">
+          <sl-tab slot="nav" panel="bookings">Bookings</sl-tab>
+          <sl-tab slot="nav" panel="createBooking">Create booking</sl-tab>
+
+          <sl-tab-panel name="bookings">
+            {{#each roomBookings}}
+            <sl-card class="card-basic w-100">
+              <h4>{{this.name}}  |  Room {{this.room_number}}</h4>
+              <h5>{{this.date_time}}</h5>
+              <p>Start time: {{this.start_time}}  |  End time: {{this.end_time}}</p>
+              <p>Room booking id: {{this.room_booking_id}}</p>
+              <p>Purpose: {{this.purpose}}</p>
+              <sl-button href="/admin/booking?id={{this.room_booking_id}}" variant="danger" outline>Delete</sl-button>
+            </sl-card>
+            {{/each}}
+          </sl-tab-panel>
+
+          <sl-tab-panel name="createBooking">
+            <h4>Book a room</h4>
+            <form class="p-2" action="/admin/room" method="post">
+              <div class="mb-3">
+                <label for="roomNumber" class="form-label">Room Number</label>
+                <input name="roomNumber" type="text" class="form-control" id="roomNumber">
+              </div>
+              <div class="mb-3">
+                <label for="date" class="form-label">Date</label>
+                <input name="date" type="date" class="form-control" id="date">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="startTime">Start Time (HH:MM:SS)</label>
+                <input name="start" type="text" class="form-control" id="startTime">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="endTime">End Time (HH:MM:SS)</label>
+                <input name="end" type="text" class="form-control" id="endTime">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="purpsoe">Purpose</label>
+                <input name="purpose" type="text" class="form-control" id="purpose">
+              </div>
+              <button type="submit" class="btn btn-primary">Create Room Booking</button>
+            </form> 
+          </sl-tab-panel>
+        </sl-tab-group>
+
+      </sl-tab-panel>
+
+      {{!-- Equipment --}}
+      <sl-tab-panel name="equipment">
+        {{#each equipment}}
+        <sl-card class="card-basic w-100">
+          {{!-- Send update post to update equipment --}}
+          <form action="/admin/equipment" method="post"> 
+          <h4>{{this.name}}</h4>
+            <input readonly class="visually-hidden" name="equipmentId" value="{{this.equipment_id}}"/> 
+            <div class="d-flex flex-column gap-1 w-100">
+              <div class="p-1">
+                <label for="lastMaintained{{@index}}">Last Maintained <strong>{{this.last_maintained}}</strong></label>
+                <input 
+                  name="lastMaintained" 
+                  type="text" 
+                  class="form-control" 
+                  id="lastMaintained{{@index}}"
+                  placeholder=""
+                  value="{{this.last_maintained}}"
+                />
+              </div>
+              <div class="p-1 pb-1">
+                <label for="status{{@index}}">Status <strong>{{this.status}}</strong></label>
+                <input
+                  name="status" 
+                  type="text" 
+                  class="form-control" 
+                  id="status{{@index}}" 
+                  placeholder=""
+                  value="{{this.status}}"
+                />
+              </div>
+            </div>
+            <div class="d-flex gap-2">
+              <sl-button type="submit" variant="primary" outline>Update</sl-button>
+            </div>
+          </form>
+        </sl-card>
+        {{/each}}
+      </sl-tab-panel>
+
+      {{!-- Class Schedules --}}
+      <sl-tab-panel name="schedules">
+        {{!-- 
+          First you create the room booking, then use the room booking to create the class
+
+         --}}
+        <sl-tab-group placement="start">
+          <sl-tab slot="nav" panel="classSchedule">Class Schedule</sl-tab>
+          <sl-tab slot="nav" panel="classCreate">Create class</sl-tab>
+          <sl-tab slot="nav" panel="classes">Classes</sl-tab>
+
+          <sl-tab-panel name="classSchedule">
+            <h4>Created Classes</h4>
+            {{#each classSchedule}}
+            <sl-card class="card-basic w-100">
+              <h4>{{this.class_name}}  |  {{this.room_name}}  |  Room number: {{this.room_number}}</h4>
+              <h5>{{this.date_time}}</h5>
+              <p>Start time: {{this.start_time}}  |  End time: {{this.end_time}}</p>
+              <p>Class schedule id: {{this.class_schedule_id}}</p>
+              <p>Purpose: {{this.purpose}}</p>
+              <sl-button href="/admin/class/details?id={{this.class_schedule_id}}" variant="primary" outline>See details</sl-button>
+              <sl-button href="/admin/class?id={{this.class_schedule_id}}" variant="danger" outline>Delete</sl-button>
+            </sl-card>
+            {{/each}}
+          </sl-tab-panel>
+
+          <sl-tab-panel name="classCreate">
+            <h4>Create a class</h4>
+            <form class="p-2" action="/admin/class" method="post">
+              <div class="mb-3">
+                <label for="classId" class="form-label">Class id</label>
+                <input name="classId" type="number" class="form-control" id="classId">
+              </div>
+              <div class="mb-3">
+                <label for="roomBookingId" class="form-label">Room booking id</label>
+                <input name="roomBookingId" type="number" class="form-control" id="roomBookingId">
+              </div>
+              <button type="submit" class="btn btn-primary">Create Class</button>
+            </form> 
+          </sl-tab-panel>
+
+
+          <sl-tab-panel name="classes">
+            <h4>Available classes</h4>
+            
+            {{#each classes}}
+            <sl-card class="card-basic w-100">
+              <h4>{{this.class_name}}</h4>
+              <h5>Trainer: {{this.name}}</h5>
+              <h5>Trainer email: {{this.email}}</h5>
+              <p>Description: {{this.description}}</p>
+              <p>Class id: {{this.class_id}}</p>
+            </sl-card>
+            {{/each}}
+          </sl-tab-panel>
+        </sl-tab-group>
+      </sl-tab-panel>
+
+      {{!-- Billings  --}}
+      <sl-tab-panel name="billings">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th scope="col">Billing Id</th>
+              <th scope="col">Member Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each billings}} 
+            <tr>
+                <td>{{this.billing_id}}</td>
+                <td>{{this.member_id}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.purpose}}</td>
+                <td>{{this.amount}}</td>
+                <td>{{this.billing_date}}</td>
+                <td>{{this.status}}</td>
+            </tr>
+            {{/each}} 
+          </tbody>
+        </table>
+      </sl-tab-panel>
+
+    </sl-tab-group>
+  </div>
+</div>
+        </sl-tab-group>
+      </sl-tab-panel>
+
+      {{!-- Billings  --}}
+      <sl-tab-panel name="billings">
+        <table class="table table-responsive">
+          <thead>
+            <tr>
+              <th scope="col">Billing Id</th>
+              <th scope="col">Member Id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Purpose</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each billings}} 
+            <tr>
+                <td>{{this.billing_id}}</td>
+                <td>{{this.member_id}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.purpose}}</td>
+                <td>{{this.amount}}</td>
+                <td>{{this.billing_date}}</td>
+                <td>{{this.status}}</td>
+            </tr>
+            {{/each}} 
+          </tbody>
+        </table>
+      </sl-tab-panel>
+
+    </sl-tab-group>
+  </div>
+</div>

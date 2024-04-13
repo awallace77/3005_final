@@ -1,0 +1,44 @@
+<div class="main-container">
+
+{{!-- Billing form --}}
+  <div class="p-2">
+    <h2>{{purpose}}</h2>
+    <sl-card class="card-basic">
+      <h4 class="p-1">With: {{trainerName}}</h4>
+      <p class="px-1 fw-bold">{{date}}</p>
+      <p class="px-1 fw-light">Start @ {{start}}  |  End @ {{end}}</p>
+    </sl-card>
+  </div>
+  <div class="p-2">
+
+    <h4>Make payment</h4>
+    <h5>Amount: ${{amount}}</h5>
+    <hr/>
+    <form class="p-2" action="/user/personalTraining" method="post">
+      {{!-- required body information   --}}
+      <input class="visually-hidden" name="memberId" value="{{memberId}}" />
+      <input class="visually-hidden" name="trainerId" value="{{trainerId}}" />
+      <input class="visually-hidden" name="trainerName" value="{{trainerName}}" />
+      <input class="visually-hidden" name="purpose" value="{{purpose}}" />
+      <input class="visually-hidden" name="amount" value="{{amount}}" />
+      <input class="visually-hidden" name="status" value="{{status}}" />
+      <input class="visually-hidden" name="date" value="{{date}}" />
+      <input class="visually-hidden" name="start" value="{{start}}" />
+      <input class="visually-hidden" name="end" value="{{end}}" />
+      <div class="mb-3">
+        <label for="billName" class="form-label">Name</label>
+        <input name="billName" type="text" class="form-control" id="billName">
+      </div>
+      <div class="mb-3">
+        <label for="cardNumber" class="form-label">Card number</label>
+        <input name="cardNumber" type="text" class="form-control" id="cardNumber">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="ccv">CCV</label>
+        <input name="ccv" type="number" class="form-control" id="ccv">
+      </div>
+      <button type="submit" class="btn btn-primary">Make payment</button>
+    </form> 
+  </div>
+
+</div>

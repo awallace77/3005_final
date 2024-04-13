@@ -1,0 +1,21 @@
+<div class="main-container">
+  <div class="d-flex flex-column gap-1">
+    <h4>Availabilities for {{trainerName}}</h4>
+    {{#each availabilities}}
+      <sl-card class="card-basic">
+        <p><span class="fw-bold">Date: {{this.date_time}}</p>
+        <p>Start time: {{this.start_time}} | End time: {{this.end_time}}</p>
+        <form action="/user/session/reschedule" method="post">
+        <p>{{sessionId}}</p>
+          <input readonly class="visually-hidden" name="sessionId" value="{{this.sessionId}}" /> 
+          <input readonly class="visually-hidden" name="trainerId" value="{{this.trainerId}}" /> 
+          <input readonly class="visually-hidden" name="memberId" value="{{this.memberId}}" /> 
+          <input readonly class="visually-hidden" name="date" value="{{this.date_time}}" /> 
+          <input readonly class="visually-hidden" name="start" value="{{this.start_time}}" /> 
+          <input readonly class="visually-hidden" name="end" value="{{this.end_time}}" /> 
+          <sl-button type="submit" variant="primary" outline>Reschedule</sl-button>
+        </form>
+      </sl-card>
+    {{/each}}
+    </div>
+</div>

@@ -1,0 +1,48 @@
+
+
+<div class="main-content">
+  <h2 class="pb-2">Group fitness classes</h2>
+  <hr class="pb-2"/>
+  <div class="main-container">
+    <sl-button href="/home" variant="primary" outline>Back home</sl-button>
+    <sl-tab-group placement="start">
+      <sl-tab slot="nav" panel="yourClasses">Your classes</sl-tab>
+      <sl-tab slot="nav" panel="classes">Browse Classes</sl-tab>
+
+      {{!-- Your classes  --}}
+      <sl-tab-panel name="yourClasses">
+        <h4>Your classes</h4>
+        {{#each memberClasses}}
+        <sl-card class="card-basic w-100">
+          <h4>{{this.class_name}}  |  {{this.room_name}}  |  Room number: {{this.room_number}}</h4>
+          <h5>{{this.date_time}}</h5>
+          <p>Start time: {{this.start_time}}  |  End time: {{this.end_time}}</p>
+          <p>Class schedule id: {{this.class_schedule_id}}</p>
+          <sl-button href="/user/class?classScheduleId={{this.class_schedule_id}}" variant="danger" outline>Cancel</sl-button>
+        </sl-card>
+        {{/each}}
+       
+      </sl-tab-panel>
+
+      {{!-- Explore classes --}}
+      <sl-tab-panel name="classes">
+        <div class="d-flex flex-column gap-1">
+          <h4>Book a class</h4>
+          {{#each classes}}
+            <sl-card class="card-basic w-100">
+              <h4>{{this.class_name}}  |  {{this.room_name}}  |  Room number: {{this.room_number}}</h4>
+              <h5>{{this.date_time}}</h5>
+              <p>Start time: {{this.start_time}}  |  End time: {{this.end_time}}</p>
+              <p>Class schedule id: {{this.class_schedule_id}}</p>
+              <p>Purpose: {{this.purpose}}</p>
+              <form action="/user/class" method="post">
+                <input readonly class="visually-hidden" name="classScheduleId" value="{{this.class_schedule_id}}"/>
+                <sl-button type="submit" variant="primary" outline>Book class</sl-button>
+              </form>
+            </sl-card>
+            {{/each}}
+        </div>
+      </sl-tab-panel>
+    </sl-tab-group>
+  </div>
+</div>

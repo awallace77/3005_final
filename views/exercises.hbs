@@ -1,0 +1,28 @@
+{{!-- 
+  File: exercises.hbs
+  Purpose: responsible for displaying the list of exercises retrieved from api
+ --}}
+<div class="container">
+  <div class="row">
+    <a class="btn btn-primary" href="javascript:history.back()">Back</a>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 class="pb-2 pt-4">{{title}}</h3>
+      <ol class="list-group list-group">
+        {{#each exercises}}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="h4 pb-1 pt-1">{{this.name}}</div>
+            <div class="h6 text-body-secondary">{{this.type}} | {{this.equipment}}</div>
+            {{this.instructions}}
+          </div>
+          <div class="d-flex flex-column">
+            <span class="badge text-bg-primary rounded-pill m-1">{{this.difficulty}}</span>
+          </div>
+        </li>
+        {{/each}}
+      </ol> 
+    </div>
+  </div>
+</div>

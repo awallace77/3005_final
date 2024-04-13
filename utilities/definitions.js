@@ -1,0 +1,3 @@
+const PERSONAL_TRAINING_PRICE = 50;
+
+module.exports = {PERSONAL_TRAINING_PRICE}

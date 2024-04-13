@@ -1,0 +1,233 @@
+{{!-- 
+  File: home.hbs
+  Purpose: responsible for displaying the main user dashboard 
+ --}}
+<div class="main-content">
+  <h2>Welcome back, {{name}}</h2>
+  <div class="d-flex gap-2">
+    <sl-button href="/personalTraining">Personal Training</sl-button>
+    <sl-button href="/classes">Group Fitness Classes</sl-button>
+  </div>
+  <sl-tab-group>
+    <sl-tab slot="nav" panel="dashboard">Dashboard</sl-tab>
+    <sl-tab slot="nav" panel="yourRoutines">Your Routines</sl-tab>
+    <sl-tab slot="nav" panel="createRoutine">Create Routine</sl-tab>
+    <sl-tab slot="nav" panel="updateFitnessGoals">Update Fitness Goals</sl-tab>
+    <sl-tab slot="nav" panel="updateHealthMetrics">Update Health Metrics</sl-tab>
+    <sl-tab slot="nav" panel="browseExercises">Browse Exercises</sl-tab>
+    <sl-tab slot="nav" panel="settings">Settings</sl-tab>
+
+    {{!-- Dashboard --}}
+    <sl-tab-panel name="dashboard">
+      <div class="d-flex flex-column p-2">
+
+        {{!-- Fitness Goals --}}
+        <div class="d-flex flex-column">
+          <h4 class="text-center">Fitness Goal Progress</h4>
+          <div class="d-flex p-2 flex-wrap justify-content-center gap-2">
+            {{#each userGoalsCalc}}
+            <div class="d-flex flex-column">
+              <p class="fw-bold p-0 m-0 text-center">{{this.name}}</p>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-label="{{this.name}} progress" style="width: {{this.percentage}}%;" aria-valuenow="{{this.percentage}}" aria-valuemin="0" aria-valuemax="100">{{this.percentage}}%</div>
+              </div>
+              <p class="fw-light small fst-italic">Current Value: {{this.currentValue}} | Goal Value: {{this.goalValue}}</p>
+            </div>
+            {{/each}}      
+          </div> 
+        </div>
+
+        <hr/>
+
+        {{!-- Health metrics --}}
+        <div class="d-flex flex-column justify-content-center">
+          <h4 class="text-center">Health Metrics</h4>
+          <div class="d-flex gap-2 justify-content-center">
+            {{#each userMetrics}}
+            <div class="card text-center" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{this.name}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{this.current_value}}</h6>
+                {{!-- <a href="#" class="card-link">Card link</a> --}}
+                {{!-- <a href="#" class="card-link">Another link</a> --}}
+              </div>
+            </div>
+            {{/each}}
+          </div>
+          
+        </div>
+      </div>
+    </sl-tab-panel>
+
+    {{!-- Fitness Exercises --}}
+    <sl-tab-panel name="yourRoutines">
+      <table class="table table-responsive">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each userRoutines}} 
+          <tr>
+              <td>{{this.name}}</td>
+              <td>{{this.description}}</td>
+              <td>{{this.duration}}</td>
+              <td>{{this.last_updated}}</td>
+          </tr>
+          {{/each}} 
+        </tbody>
+      </table>          
+    </sl-tab-panel>
+
+    {{!-- Update Fitness Goals --}}
+    <sl-tab-panel name="updateFitnessGoals">
+      <form class="p-2" action="/user/goals" method="post">
+        {{#each fitnessGoals}}
+        <div class="d-flex flex-column">
+          <p class="pb-0 m-0">{{this.name}}</p>
+          <div class="d-flex gap-2">
+            <div class="form-floating mb-3 ">
+              <input 
+                name="current{{this.fitness_goal_id}}" 
+                type="text" 
+                class="form-control" 
+                id="current{{this.fitness_goal_id}}"
+                placeholder="Current value"
+                value="{{this.currentValue}}"
+              />
+              <label for="current{{this.fitness_goal_id}}">Current Value: <strong>{{this.currentValue}}</strong></label>
+            </div>
+            <div class="form-floating">
+              <input
+                name="goal{{this.fitness_goal_id}}" 
+                type="text" 
+                class="form-control" 
+                id="goal{{this.fitness_goal_id}}" 
+                placeholder="{{this.goalValue}}"
+                value="{{this.goalValue}}"
+              />
+              <label for="goal{{this.fitness_goal_id}}">Goal value: <strong>{{this.goalValue}}</strong></label>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+    
+        <button type="submit" class="btn btn-primary">Update Goals</button>
+      </form> 
+    </sl-tab-panel>
+
+    {{!-- Update Health Metrics --}}
+    <sl-tab-panel name="updateHealthMetrics">
+      <form class="p-2" action="/user/health" method="post">
+        {{#each healthMetrics}}
+        <div class="d-flex flex-column">
+          <p class="pb-0 m-0">{{this.name}}</p>
+          <div class="d-flex gap-2">
+            <div class="form-floating mb-3 ">
+              <input 
+                name="metric{{this.health_metric_id}}" 
+                type="text" 
+                class="form-control" 
+                id="metric{{this.health_metric_id}}"
+                placeholder="Current value"
+                value="{{this.currentValue}}"
+              />
+              <label for="metric{{this.health_metric_id}}"><strong>{{this.currentValue}}</strong></label>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+    
+        <button type="submit" class="btn btn-primary">Update Metrics</button>
+      </form> 
+    </sl-tab-panel>
+
+    {{!-- Browse Exercises --}}
+    <sl-tab-panel name="browseExercises">    
+      <div class="d-flex flex-wrap">
+        {{#each browseExercises}}
+        <div class="col-sm-6 p-2">
+          <div class="card" >
+              <img class="card-img-top" src="{{this.img}}">
+              <div class="card-body">
+                <h5 class="card-title">{{this.displayName}}</h5>
+                <a href="/exercise/search?muscleGroup={{this.searchName}}" class="btn btn-primary">Browse</a>
+              </div>
+          </div> 
+        </div>
+        {{/each}} 
+      </div>
+    </sl-tab-panel>
+
+    {{!-- Create exercise --}}
+    <sl-tab-panel name="createRoutine">
+      <form class="p-2" action="/user/exercise" method="post">
+        <div class="mb-3">
+          <label for="routineName" class="form-label">Routine Name</label>
+          <input name="name" type="text" class="form-control" id="routineName">
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <input name="description" type="text" class="form-control" id="description">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="duration">Duration</label>
+          <input name="duration" type="text" class="form-control" id="duration">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="date">Date</label>
+          <input name="date" type="date" class="form-control" id="date">
+        </div>
+        <button type="submit" class="btn btn-primary">Create Routine</button>
+      </form> 
+    </sl-tab-panel>
+
+    {{!-- Settings --}}
+    <sl-tab-panel name="settings">
+     <div class="accordion p-2" id="settingsAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="changeEmail">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              Change Email
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="changeEmail" data-bs-parent="#settingsAccordion">
+            <div class="accordion-body">          
+              <form class="p-2" action="/user/email" method="post">
+                <div class="mb-3">
+                  <label for="newEmail" class="form-label">New Email</label>
+                  <input name="email" type="text" class="form-control" id="newEmail">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Email</button>
+              </form> 
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="changePassword">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Change Password  
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="changePassword" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <form class="p-2" action="/user/password" method="post">
+                <div class="mb-3">
+                  <label for="newPass" class="form-label">New Password</label>
+                  {{!-- <input name="password" type="password" class="form-control" id="newPass"> --}}
+                  <input name="password" type="text" class="form-control" id="newPass">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Password</button>
+              </form> 
+            </div>
+          </div>
+        </div>
+      </div> 
+    </sl-tab-panel>
+  </sl-tab-group> 
+
+</div>

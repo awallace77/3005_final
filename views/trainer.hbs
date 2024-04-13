@@ -1,0 +1,91 @@
+
+<div class="main-content">
+  <h2 class="pb-2">Welcome back, {{name}}</h2>
+  <hr class="pb-2"/>
+  <div class="main-container">
+    <sl-tab-group placement="start">
+      <sl-tab slot="nav" panel="availability">Your availability</sl-tab>
+      <sl-tab slot="nav" panel="addAvailability">Add availability</sl-tab>
+      <sl-tab slot="nav" panel="members">Members</sl-tab>
+
+      {{!-- Availability  --}}
+      <sl-tab-panel name="availability">
+        {{!--trainer_id, date_time, start_time, end_time --}}
+        {{#each trainerAvailability}}
+          <sl-card class="card-basic w-100">
+              <form action="/trainer/availability" method="post"> 
+                {{!-- <p><span name="date" class="fw-bold">{{this.date_time}}</span></p> --}}
+                <input type="text" readonly class="form-control-plaintext fw-bold" id="date" name="date" value="{{this.date_time}}">
+                <div class="d-flex gap-2">
+                  <div class="form-floating mb-3 ">
+                    <input 
+                      name="start" 
+                      type="text" 
+                      class="form-control" 
+                      id="startTime{{@index}}"
+                      placeholder=""
+                      value="{{this.start_time}}"
+                    />
+                    <label for="startTime{{@index}}">Start time: <strong>{{this.start_time}}</strong></label>
+                  </div>
+                  <div class="form-floating">
+                    <input
+                      name="end" 
+                      type="text" 
+                      class="form-control" 
+                      id="endTime{{@index}}" 
+                      placeholder=""
+                      value="{{this.end_time}}"
+                    />
+                    <label for="endTime{{@index}}">End time: <strong>{{this.end_time}}</strong></label>
+                  </div>
+                </div>
+                <div class="d-flex gap-2">
+                  <sl-button type="submit" variant="primary" outline>Update</sl-button>
+                </div>
+              </form>
+              <form action="/trainer/availability" method="delete" class="pt-1">
+                  <input type="text" readonly class="form-control-plaintext visually-hidden" id="dateDelete" name="date" value="{{this.date_time}}">
+                  <sl-button type="submit" variant="danger" outline>Delete</sl-button>
+              </form>
+          </sl-card>
+        {{/each}}
+      </sl-tab-panel>
+
+      {{!-- Create availability --}}
+      <sl-tab-panel name="addAvailability">
+        <p class="fw-light fst-italic">NOTE: Only one availability per day</p>
+        <form class="p-2" action="/trainer/availability" method="post">
+          <div class="mb-3">
+            <label for="newDate" class="form-label">Date</label>
+            <input name="date" type="date" class="form-control" id="newDate">
+          </div>
+          <div class="mb-3">
+            <label for="newStartTime" class="form-label">Start time (HH:MM:SS)</label>
+            <input name="start" type="text" class="form-control" id="newStartTime">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="newEndTime">End Time (HH:MM:SS)</label>
+            <input name="end" type="text" class="form-control" id="newEndTime">
+          </div>
+          <sl-button type="submit" variant="primary" outline>Create Availability</sl-button>
+        </form> 
+      </sl-tab-panel>
+
+      {{!-- Members --}}
+      <sl-tab-panel name="members">
+        <div class="d-flex flex-column gap-1">
+          <h4>Members</h4>
+          {{#each members}}
+            <sl-card class="card-basic">
+              <a class="text-decoration-none text-black" href="/user/{{this.email}}">
+                <p><span class="fw-bold">{{this.name}}</span>  |  {{this.email}}</p>
+                <p>Registration date: {{this.date}}</p>
+              </a>
+            </sl-card>
+          {{/each}}
+        </div>
+      </sl-tab-panel>
+    </sl-tab-group>
+  </div>
+</div>

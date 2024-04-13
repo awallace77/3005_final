@@ -1,0 +1,40 @@
+
+
+<div class="main-content">
+  <h2 class="pb-2">Personal Training</h2>
+  <hr class="pb-2"/>
+  <div class="main-container">
+    <sl-button href="/home" variant="primary" outline>Back home</sl-button>
+    <sl-tab-group placement="start">
+      <sl-tab slot="nav" panel="sessions">Your sessions</sl-tab>
+      <sl-tab slot="nav" panel="bookSession">Book a session</sl-tab>
+
+      {{!-- Your sessions  --}}
+      <sl-tab-panel name="sessions">
+        {{#each memberSessions}}
+          <sl-card class="card-basic w-100">
+            <h4>{{this.date_time}}</h4>
+            <p>Start time: {{this.start_time}}  |  End time: {{this.end_time}}</p>
+              <sl-button href="/user/session/reschedule?trainerId={{this.trainer_id}}&sessionId={{this.training_session_id}}" variant="primary" outline>Reschedule</sl-button>
+              <sl-button href="/user/session?id={{this.training_session_id}}" variant="danger" outline>Delete</sl-button>
+          </sl-card>
+        {{/each}}
+      </sl-tab-panel>
+
+      {{!-- Book a session --}}
+      <sl-tab-panel name="bookSession">
+        <div class="d-flex flex-column gap-1">
+          <h4>Book a session</h4>
+          {{#each trainers}}
+            <sl-card class="card-basic">
+              <p><span class="fw-bold">{{this.name}}</span>  |  {{this.email}}</p>
+              <p><span class="fw-bold">Date: {{this.date_time}}</p>
+              <p>Start time: {{this.start_time}} | End time: {{this.end_time}}</p>
+              <sl-button href="/user/personalTraining?trainerId={{this.trainer_id}}&name={{this.name}}&date={{this.date_time}}&start={{this.start_time}}&end={{this.end_time}}" variant="primary" outline>Book</sl-button>
+            </sl-card>
+          {{/each}}
+        </div>
+      </sl-tab-panel>
+    </sl-tab-group>
+  </div>
+</div>
