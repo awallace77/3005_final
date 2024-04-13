@@ -3,11 +3,23 @@
 DROP DATABASE IF EXISTS fitness_app;
 CREATE DATABASE fitness_app; 
 */
+-- Views
+DROP VIEW IF EXISTS all_classes;
+DROP VIEW IF EXISTS all_member_billings;
+DROP VIEW IF EXISTS all_member_goals;
+DROP VIEW IF EXISTS all_member_goals_with_name;
+DROP VIEW IF EXISTS all_member_health_metrics;
+DROP VIEW IF EXISTS all_room_bookings_with_name;
+DROP VIEW IF EXISTS all_trainer_availabilities;
+DROP VIEW IF EXISTS all_users_with_roles;
+DROP VIEW IF EXISTS class_member_details;
+DROP VIEW IF EXISTS class_schedule_details;
 
 -- Dependendent tabbles
 DROP TABLE IF EXISTS fitness_class_member; -- member and class_schedule 
-DROP TABLE IF EXISTS member_health_metric; -- member and health_metric
 DROP TABLE IF EXISTS class_schedule; -- fitness_class and room_booking 
+
+DROP TABLE IF EXISTS member_health_metric; -- member and health_metric
 DROP TABLE IF EXISTS member_goal; -- member and fitness_goal
 DROP TABLE IF EXISTS room_booking; -- fitness_class
 DROP TABLE IF EXISTS training_session; -- trainer and member
@@ -19,11 +31,11 @@ DROP TABLE IF EXISTS fitness_class; -- trainer
 --Independent tables
 DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS health_metric;
-DROP TABLE IF EXISTS goal_type;
 DROP TABLE IF EXISTS trainer;
 DROP TABLE IF EXISTS admin;
 DROP TABLE IF EXISTS room;
 DROP TABLE IF EXISTS equipment;
+DROP TABLE IF EXISTS fitness_goal;
 
 
 -- Member table

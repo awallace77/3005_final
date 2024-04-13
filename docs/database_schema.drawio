@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-04-11T18:20:24.416Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="DfdQCV1ZuYRudqzJ8Rqg" version="24.2.3" type="device">
+<mxfile host="app.diagrams.net" modified="2024-04-13T18:43:30.343Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="U1DWG80AC_7N7rDeSs2o" version="24.2.5" type="device">
   <diagram name="Page-1" id="GpMGKudZMkiiEpbJN2XM">
-    <mxGraphModel dx="2445" dy="966" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3591" dy="1517" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -938,9 +938,6 @@
           <mxGeometry x="36.549957275390625" width="143.45004272460938" height="30" as="geometry">
             <mxRectangle width="143.45004272460938" height="30" as="alternateBounds" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="WlaR65cunMCcRaufkru7-392" value="class schedule has a date time and so does room booking.&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;This way, when you want to change the class schedule, you can reference the room booking to see if the room_id has a free slot in the room booking table, then update the class schedule; else throw an error that the class must be booked in a different room or the time must change." style="whiteSpace=wrap;html=1;align=center;" parent="1" vertex="1">
-          <mxGeometry x="77" y="793" width="524" height="131" as="geometry" />
         </mxCell>
         <mxCell id="WlaR65cunMCcRaufkru7-395" value="" style="endArrow=none;html=1;rounded=0;dashed=0;dashPattern=1 2;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" parent="1" source="WlaR65cunMCcRaufkru7-2" target="WlaR65cunMCcRaufkru7-306" edge="1">
           <mxGeometry relative="1" as="geometry">
